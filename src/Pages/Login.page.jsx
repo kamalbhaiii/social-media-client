@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AlertDanger from "../Components/AlertDanger/AlertDanger.component";
 import Loading from "react-fullscreen-loading";
 import AlertSuccess from "../Components/AlertSuccess/AlertSuccess.component";
+import AlertInfo from "../Components/AlertInfo/AlertInfo.component";
 
 function Copyright(props) {
   return (
@@ -52,6 +53,10 @@ export default function Login() {
     error: null,
   });
   const [alertSuccess, setAlertSuccess] = React.useState({
+    display: "none",
+    message: null,
+  });
+  const [alertInfo, setAlertInfo] = React.useState({
     display: "none",
     message: null,
   });
@@ -94,6 +99,7 @@ export default function Login() {
         display={alertSuccess.display}
         message={alertSuccess.message}
       />
+      <AlertInfo display={alertInfo.display} message={alertInfo.message} />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -169,48 +175,30 @@ export default function Login() {
                   e.preventDefault();
                   if (data.email && data.password) {
                     dispatch(loginActions.loginApiCall(data));
-
-                    // if (loading === false && error === null) {
-                    //   navigate("/dashboard");
-                    // } else if (loading === false && error !== null) {
-                    //   setAlertDanger({
-                    //     ...alertDanger,
-                    //     display: "flex",
-                    //     error: "Invalid Credentials",
-                    //   });
-                    //   setTimeout(() => {
-                    //     setAlertDanger({
-                    //       ...alertDanger,
-                    //       display: "none",
-                    //       error: null,
-                    //     });
-                    //   }, 2000);
-                    //   dispatch(loginActions.resetLoginData());
-                    // }
                   } else {
                     if (!data.email && !data.password) {
-                      setAlertDanger({
-                        ...alertDanger,
+                      setAlertInfo({
+                        ...alertInfo,
                         display: "flex",
-                        error: "Email and Password are required fields.",
+                        message: "Email and Password are required fields.",
                       });
                     } else if (!data.password) {
-                      setAlertDanger({
-                        ...alertDanger,
+                      setAlertInfo({
+                        ...alertInfo,
                         display: "flex",
-                        error: "Password is a required field.",
+                        message: "Password is a required field.",
                       });
                     } else {
-                      setAlertDanger({
-                        ...alertDanger,
+                      setAlertInfo({
+                        ...alertInfo,
                         display: "flex",
-                        error: "Email is a required field.",
+                        message: "Email is a required field.",
                       });
                     }
 
                     setTimeout(() => {
-                      setAlertDanger({
-                        ...alertDanger,
+                      setAlertInfo({
+                        ...alertInfo,
                         display: "none",
                       });
                     }, 2000);
