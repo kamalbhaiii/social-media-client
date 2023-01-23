@@ -11,12 +11,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { loginActions } from "../redux";
+import { loginActions } from "../../redux";
 import { useDispatch, useSelector } from "react-redux";
-import AlertDanger from "../Components/AlertDanger/AlertDanger.component";
+import AlertDanger from "../../Components/AlertDanger/AlertDanger.component";
 import Loading from "react-fullscreen-loading";
-import AlertSuccess from "../Components/AlertSuccess/AlertSuccess.component";
-import AlertInfo from "../Components/AlertInfo/AlertInfo.component";
+import AlertSuccess from "../../Components/AlertSuccess/AlertSuccess.component";
+import AlertInfo from "../../Components/AlertInfo/AlertInfo.component";
 
 function Copyright(props) {
   return (

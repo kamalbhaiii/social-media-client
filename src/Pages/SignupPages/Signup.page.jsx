@@ -11,6 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import AlertInfo from "../../Components/AlertInfo/AlertInfo.component";
 
 function Copyright(props) {
   return (
@@ -33,18 +34,22 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Signup() {
+  const [alertInfo, setAlertInfo] = React.useState({
+    display: "none",
+    message: null,
+  });
+  const [data, setData] = React.useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    username: "",
+  });
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
 
   return (
     <ThemeProvider theme={theme}>
+      <AlertInfo display={alertInfo.display} message={alertInfo.message} />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -79,12 +84,7 @@ export default function Signup() {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 autoComplete="given-name"
@@ -94,16 +94,27 @@ export default function Signup() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                onChange={(e) => {
+                  setData({
+                    ...data,
+                    firstName: e.target.value,
+                  });
+                }}
               />
 
               <TextField
                 margin="normal"
-                required
                 fullWidth
                 id="lastName"
                 label="Last Name"
                 name="lastName"
                 autoComplete="family-name"
+                onChange={(e) => {
+                  setData({
+                    ...data,
+                    lastName: e.target.value,
+                  });
+                }}
               />
               <TextField
                 margin="normal"
@@ -113,6 +124,12 @@ export default function Signup() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={(e) => {
+                  setData({
+                    ...data,
+                    email: e.target.value,
+                  });
+                }}
               />
               <TextField
                 margin="normal"
@@ -123,11 +140,13 @@ export default function Signup() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e) => {
+                  setData({
+                    ...data,
+                    password: e.target.value,
+                  });
+                }}
               />
-              {/* <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
               <Button
                 type="submit"
                 fullWidth
@@ -135,17 +154,20 @@ export default function Signup() {
                 sx={{ mt: 3, mb: 2 }}
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate("/signup/username");
+                  if (!data.email || !data.firstName || !data.password) {
+                    setAlertInfo({
+                      ...alertInfo,
+                      display: "flex",
+                      message: "Please fill all the required fields.",
+                    });
+                  } else {
+                    navigate(`/signup/${data.email}`, data);
+                  }
                 }}
               >
                 Next
               </Button>
               <Grid container>
-                {/* <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid> */}
                 <Grid item>
                   <Link
                     href="#"

@@ -10,7 +10,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Checkbox, FormControlLabel } from "@mui/material";
 
 function Copyright(props) {
@@ -34,15 +34,13 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignupUsername() {
+  const location = useLocation();
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  const [data, setData] = React.useState(null);
+
+  React.useEffect(() => {
+    setData(location.data);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -80,12 +78,7 @@ export default function SignupUsername() {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 autoComplete="given-username"
