@@ -11,6 +11,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { loginActions } from "../redux";
+import { useDispatch, useSelector } from "react-redux";
+import AlertDanger from "../Components/AlertDanger/AlertDanger.component";
+import Loading from "react-fullscreen-loading";
+import AlertSuccess from "../Components/AlertSuccess/AlertSuccess.component";
 
 function Copyright(props) {
   return (
@@ -21,7 +26,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="social-media.vercel.app">
+      <Link color="inherit" href="https://social-media-kamal.vercel.app">
         My Web
       </Link>{" "}
       {new Date().getFullYear()}
@@ -33,18 +38,62 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
+  const [data, setData] = React.useState({
+    email: "",
+    password: "",
+  });
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => {
+    return state.loginReducer;
+  });
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
-
+  const [alertDanger, setAlertDanger] = React.useState({
+    display: "none",
+    error: null,
+  });
+  const [alertSuccess, setAlertSuccess] = React.useState({
+    display: "none",
+    message: null,
+  });
+  React.useEffect(() => {
+    if (loading === false && error === null) {
+      setAlertSuccess({
+        ...alertSuccess,
+        display: "flex",
+        message: "Login Approved",
+      });
+      setTimeout(() => {
+        setAlertSuccess({
+          ...alertSuccess,
+          display: "none",
+          message: null,
+        });
+      }, 2000);
+      navigate("/dashboard");
+    } else if (loading === false && error !== null) {
+      setAlertDanger({
+        ...alertDanger,
+        display: "flex",
+        error: "Invalid Credentials",
+      });
+      setTimeout(() => {
+        setAlertDanger({
+          ...alertDanger,
+          display: "none",
+          error: null,
+        });
+      }, 2000);
+      dispatch(loginActions.resetLoginData());
+    }
+  }, [loading, error]);
   return (
     <ThemeProvider theme={theme}>
+      <Loading loading={loading === null || loading === false ? false : true} />
+      <AlertDanger display={alertDanger.display} error={alertDanger.error} />
+      <AlertSuccess
+        display={alertSuccess.display}
+        message={alertSuccess.message}
+      />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -79,12 +128,7 @@ export default function Login() {
             <Typography component="h1" variant="h5">
               Login
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -94,6 +138,12 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={(e) => {
+                  setData({
+                    ...data,
+                    email: e.target.value,
+                  });
+                }}
               />
               <TextField
                 margin="normal"
@@ -104,25 +154,83 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e) => {
+                  setData({
+                    ...data,
+                    password: e.target.value,
+                  });
+                }}
               />
-              {/* <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
               <Button
-                type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (data.email && data.password) {
+                    dispatch(loginActions.loginApiCall(data));
+
+                    // if (loading === false && error === null) {
+                    //   navigate("/dashboard");
+                    // } else if (loading === false && error !== null) {
+                    //   setAlertDanger({
+                    //     ...alertDanger,
+                    //     display: "flex",
+                    //     error: "Invalid Credentials",
+                    //   });
+                    //   setTimeout(() => {
+                    //     setAlertDanger({
+                    //       ...alertDanger,
+                    //       display: "none",
+                    //       error: null,
+                    //     });
+                    //   }, 2000);
+                    //   dispatch(loginActions.resetLoginData());
+                    // }
+                  } else {
+                    if (!data.email && !data.password) {
+                      setAlertDanger({
+                        ...alertDanger,
+                        display: "flex",
+                        error: "Email and Password are required fields.",
+                      });
+                    } else if (!data.password) {
+                      setAlertDanger({
+                        ...alertDanger,
+                        display: "flex",
+                        error: "Password is a required field.",
+                      });
+                    } else {
+                      setAlertDanger({
+                        ...alertDanger,
+                        display: "flex",
+                        error: "Email is a required field.",
+                      });
+                    }
+
+                    setTimeout(() => {
+                      setAlertDanger({
+                        ...alertDanger,
+                        display: "none",
+                      });
+                    }, 2000);
+                  }
+                }}
               >
                 Login
               </Button>
               <Grid container>
-                {/* <Grid item xs>
-                  <Link href="#" variant="body2">
+                <Grid item xs>
+                  <Link
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/forgetPassword");
+                    }}
+                    variant="body2"
+                  >
                     Forgot password?
                   </Link>
-                </Grid> */}
+                </Grid>
                 <Grid item>
                   <Link
                     href="#"
