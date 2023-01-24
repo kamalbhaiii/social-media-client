@@ -12,24 +12,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import AlertInfo from "../../Components/AlertInfo/AlertInfo.component";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="social-media.vercel.app">
-        My Web
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "../../Components/Copyright/Copyright.component";
 
 const theme = createTheme();
 
@@ -44,6 +27,7 @@ export default function Signup() {
     email: "",
     password: "",
     username: "",
+    tAndC: false,
   });
   const navigate = useNavigate();
 
@@ -160,8 +144,15 @@ export default function Signup() {
                       display: "flex",
                       message: "Please fill all the required fields.",
                     });
+                    setTimeout(() => {
+                      setAlertInfo({
+                        ...alertInfo,
+                        display: "none",
+                        message: null,
+                      });
+                    }, 2000);
                   } else {
-                    navigate(`/signup/${data.email}`, data);
+                    navigate(`/signup/${data.email}`, { state: data });
                   }
                 }}
               >

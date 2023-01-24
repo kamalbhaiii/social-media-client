@@ -1,8 +1,6 @@
 import axios from "axios";
 import jwt from "jwt-decode"
 
-const SERVER_URI = "https://social-media-server-z33y.onrender.com/api/v1"
-
 export const loginIntialize = () => ({
     type: "LOGIN_INITIALIZATION"
 })
@@ -33,7 +31,7 @@ export const resetLoginData = () => {
 export const loginApiCall = (body) => {
     return (dispatch) => {
         dispatch(loginIntialize());
-        axios.post(`${SERVER_URI}/auth/login`, body, {
+        axios.post(`${process.env.REACT_APP_SERVER_URI}/auth/login`, body, {
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"

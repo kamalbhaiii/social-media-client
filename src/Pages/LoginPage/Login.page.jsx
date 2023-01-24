@@ -17,24 +17,7 @@ import AlertDanger from "../../Components/AlertDanger/AlertDanger.component";
 import Loading from "react-fullscreen-loading";
 import AlertSuccess from "../../Components/AlertSuccess/AlertSuccess.component";
 import AlertInfo from "../../Components/AlertInfo/AlertInfo.component";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://social-media-kamal.vercel.app">
-        My Web
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "../../Components/Copyright/Copyright.component";
 
 const theme = createTheme();
 
@@ -73,8 +56,8 @@ export default function Login() {
           display: "none",
           message: null,
         });
+        navigate("/dashboard");
       }, 2000);
-      navigate("/dashboard");
     } else if (loading === false && error !== null) {
       setAlertDanger({
         ...alertDanger,
