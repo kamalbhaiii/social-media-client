@@ -10,13 +10,14 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AlertInfo from "../../Components/AlertInfo/AlertInfo.component";
 import Copyright from "../../Components/Copyright/Copyright.component";
 
 const theme = createTheme();
 
 export default function Signup() {
+  const location = useLocation();
   const [alertInfo, setAlertInfo] = React.useState({
     display: "none",
     message: null,
@@ -30,6 +31,19 @@ export default function Signup() {
     tAndC: false,
   });
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (location.state) {
+      setData({
+        ...data,
+        firstName: location.state.firstName,
+        lastName: location.state.lastName,
+        email: location.state.email,
+        password: location.state.password,
+        username: location.state.username,
+      });
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -78,6 +92,7 @@ export default function Signup() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                value={data.firstName}
                 onChange={(e) => {
                   setData({
                     ...data,
@@ -93,6 +108,7 @@ export default function Signup() {
                 label="Last Name"
                 name="lastName"
                 autoComplete="family-name"
+                value={data.lastName}
                 onChange={(e) => {
                   setData({
                     ...data,
@@ -108,6 +124,7 @@ export default function Signup() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={data.email}
                 onChange={(e) => {
                   setData({
                     ...data,
@@ -123,6 +140,7 @@ export default function Signup() {
                 label="Password"
                 type="password"
                 id="password"
+                value={data.password}
                 autoComplete="current-password"
                 onChange={(e) => {
                   setData({

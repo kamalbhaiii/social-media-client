@@ -131,6 +131,7 @@ export default function SignupUsername() {
                 id="userName"
                 label="Username"
                 autoFocus
+                value={data?.username}
                 onChange={(e) => {
                   setData({
                     ...data,
@@ -159,7 +160,7 @@ export default function SignupUsername() {
                     color="primary"
                     onClick={(e) => {
                       e.preventDefault();
-                      navigate("/signup");
+                      navigate("/signup", { state: data });
                     }}
                   >
                     Back
@@ -197,7 +198,7 @@ export default function SignupUsername() {
                       }
                     }}
                   >
-                    Login
+                    Signup
                   </Button>
                 </Grid>
               </Grid>
