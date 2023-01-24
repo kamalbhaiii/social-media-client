@@ -18,6 +18,7 @@ import Loading from "react-fullscreen-loading";
 import AlertSuccess from "../../Components/AlertSuccess/AlertSuccess.component";
 import AlertInfo from "../../Components/AlertInfo/AlertInfo.component";
 import Copyright from "../../Components/Copyright/Copyright.component";
+import LinearLoader from "../../Components/LinearLoader/LinearLoader.comonent";
 
 const theme = createTheme();
 
@@ -76,6 +77,7 @@ export default function Login() {
   }, [loading, error]);
   return (
     <ThemeProvider theme={theme}>
+      {loading === true ? <LinearLoader /> : ""}
       <Loading loading={loading === null || loading === false ? false : true} />
       <AlertDanger display={alertDanger.display} error={alertDanger.error} />
       <AlertSuccess
