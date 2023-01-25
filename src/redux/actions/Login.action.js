@@ -38,6 +38,7 @@ export const loginApiCall = (body) => {
             }
         }).then((res) => {
             dispatch(loginSuccess(res.data.message))
+            localStorage.setItem("token", res.data.message)
             const data = jwt(res.data.message)
             dispatch(convertLoginToken(data))
 
