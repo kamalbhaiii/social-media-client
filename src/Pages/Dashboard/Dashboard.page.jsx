@@ -11,9 +11,9 @@ const Dashboard = () => {
   console.log(data);
   return (
     <Box>
-      <Typography sx={{ display: "flex" }} variant="h2">
+      <Typography sx={{ display: "flex" }} variant="h3">
         Hello,{" "}
-        <Typography variant="h2" color={"blueviolet"}>
+        <Typography variant="h3" color={"blueviolet"}>
           {data.firstName} {data?.lastName}
         </Typography>
       </Typography>
