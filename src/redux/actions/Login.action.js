@@ -29,21 +29,33 @@ export const resetLoginData = () => {
 }
 
 export const loginApiCall = (body) => {
-    return (dispatch) => {
-        dispatch(loginIntialize());
-        axios.post(`${process.env.REACT_APP_SERVER_URI}/auth/login`, body, {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        }).then((res) => {
-            dispatch(loginSuccess(res.data.message))
-            localStorage.setItem("token", res.data.message)
-            const data = jwt(res.data.message)
-            dispatch(convertLoginToken(data))
+    if (localStorage.getItem("token") === null) {
+        return (dispatch) => {
+            dispatch(loginIntialize());
+            axios.post(`${process.env.REACT_APP_SERVER_URI}/auth/login`, body, {
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                }
+            }).then((res) => {
+                dispatch(loginSuccess(res.data.message))
+                localStorage.setItem("token", res.data.message)
+                const data = jwt(res.data.message)
+                dispatch(convertLoginToken(data))
 
-        }).catch((err) => {
-            dispatch(loginFail(err.message))
-        })
+            }).catch((err) => {
+                dispatch(loginFail(err.message))
+            })
+        }
+    } else {
+        return (dispatch) => {
+            dispatch(loginIntialize())
+            try {
+                const data = jwt(body)
+                dispatch(convertLoginToken(data))
+            } catch (err) {
+                dispatch(loginFail(err.message))
+            }
+        }
     }
 }

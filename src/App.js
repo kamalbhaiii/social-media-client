@@ -7,14 +7,25 @@ import Error from './Pages/Error/Error.page';
 import Dashboard from './Pages/Dashboard/Dashboard.page'
 import Navbar from './Components/Navbar/Navbar.component';
 import * as React from "react";
+import { useDispatch } from 'react-redux';
+import { loginActions } from './redux';
 
 const ProtectedRoutes = () => {
+  const dispatch = useDispatch()
   let token = localStorage.getItem("token")
   if (token === null) {
     return <Navigate to={"/"} replace />
   }
-
+  dispatch(loginActions.loginApiCall(localStorage.getItem("token")))
   return <Outlet />;
+}
+
+const UnprotectedRoutes = () => {
+  let token = localStorage.getItem("token")
+  if (token === null) {
+    return <Outlet />
+  }
+  return <Navigate to={"/dashboard"} replace />
 }
 
 
@@ -33,15 +44,17 @@ function App() {
     <div className="App">
       <Navbar display={navbarDisplay} />
       <Routes>
-        <Route path="/" exact element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/signup/:email" element={<SignupUsername />} />
-        <Route path="/error" element={<Error />} />
+        <Route element={<UnprotectedRoutes />} >
+          <Route path="/" exact element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup/:email" element={<SignupUsername />} />
+          <Route path="/error" element={<Error />} />
+          <Route path="*" element={<Error />} />
+        </Route>
         <Route element={<ProtectedRoutes />} >
           <Route path='/dashboard' element={<Dashboard />} />
         </Route>
-        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );
