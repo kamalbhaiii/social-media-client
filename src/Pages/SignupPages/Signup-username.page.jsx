@@ -43,7 +43,11 @@ export default function SignupUsername() {
   });
 
   React.useEffect(() => {
-    setData(location.state);
+    if (!location.state) {
+      navigate("/signup");
+    } else {
+      setData(location.state);
+    }
   }, []);
 
   React.useEffect(() => {
