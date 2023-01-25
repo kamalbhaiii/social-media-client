@@ -7,13 +7,11 @@ import Error from './Pages/Error/Error.page';
 import Dashboard from './Pages/Dashboard/Dashboard.page'
 import Navbar from './Components/Navbar/Navbar.component';
 import * as React from "react";
-import { useSelector } from 'react-redux';
 
 const ProtectedRoutes = () => {
   let token = localStorage.getItem("token")
-  const location = useLocation()
   if (token === null) {
-    return <Navigate to={"/"} state={location} />
+    return <Navigate to={"/"} replace />
   }
 
   return <Outlet />;
@@ -40,10 +38,10 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/signup/:email" element={<SignupUsername />} />
         <Route path="/error" element={<Error />} />
-        <Route path="*" element={<Error />} />
         <Route element={<ProtectedRoutes />} >
           <Route path='/dashboard' element={<Dashboard />} />
         </Route>
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );

@@ -16,8 +16,9 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Avatar } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { loginActions } from "../../redux";
 
 function stringToColor(string) {
   let hash = 0;
@@ -89,6 +90,7 @@ function stringAvatar(name) {
 // }));
 
 export default function Navbar({ display }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data } = useSelector((state) => state.loginReducer);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -114,6 +116,13 @@ export default function Navbar({ display }) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogout = (e) => {
+    handleMenuClose();
+    localStorage.clear();
+    dispatch(loginActions.resetLoginData());
+    navigate("/");
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -133,15 +142,7 @@ export default function Navbar({ display }) {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem
-        onClick={(e) => {
-          handleMenuClose();
-          localStorage.clear();
-          navigate("/");
-        }}
-      >
-        Log Out
-      </MenuItem>
+      <MenuItem onClick={handleLogout}>Log Out</MenuItem>
     </Menu>
   );
 

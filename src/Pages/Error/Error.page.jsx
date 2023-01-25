@@ -31,7 +31,7 @@ const Error = () => {
           <Button
             sx={{ mt: 3 }}
             variant="contained"
-            color="success"
+            color="primary"
             onClick={(e) => {
               e.preventDefault();
               navigate("/");
