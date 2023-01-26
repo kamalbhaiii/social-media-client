@@ -19,6 +19,7 @@ import { Avatar } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginActions } from "../../redux";
+import "./Navbar.component.css";
 
 function stringToColor(string) {
   let hash = 0;
@@ -183,7 +184,7 @@ export default function Navbar({ display }) {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      {/* <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -194,13 +195,13 @@ export default function Navbar({ display }) {
           <Avatar {...stringAvatar(`${data?.firstName} ${data?.lastName}`)} />
         </IconButton>
         <p>Profile</p>
-      </MenuItem>
+      </MenuItem> */}
     </Menu>
   );
 
   return (
     <Box sx={{ flexGrow: 1, display: display }}>
-      <AppBar position="static">
+      <AppBar className={"color-change-2x"} position="static">
         <Toolbar>
           {/* <IconButton
             size="large"
@@ -229,11 +230,24 @@ export default function Navbar({ display }) {
             />
           </Search> */}
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
+          <Box sx={{ display: { md: "flex" } }}>
             <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
+              sx={{ display: { xs: "none", md: "flex" } }}
             >
               <Badge badgeContent={4} color="error">
                 <MailIcon />
@@ -243,12 +257,14 @@ export default function Navbar({ display }) {
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              sx={{ display: { xs: "none", md: "flex" } }}
             >
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
             <IconButton
+              sx={{ display: { xs: "flex" } }}
               size="large"
               edge="end"
               aria-label="account of current user"
@@ -260,18 +276,6 @@ export default function Navbar({ display }) {
               <Avatar
                 {...stringAvatar(`${data?.firstName} ${data?.lastName}`)}
               />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
             </IconButton>
           </Box>
         </Toolbar>
