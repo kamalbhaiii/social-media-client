@@ -25,6 +25,8 @@ const forgetPasswordReducer = (state = initialState, action) => {
             }
         case "FORGET_PASSWORD_REMOVE_DATA":
             return initialState
+        case "RESET_PASSWORD_REMOVE_DATA":
+            return initialState
         default:
             return initialState;
     }
