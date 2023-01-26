@@ -78,7 +78,10 @@ export default function Login() {
   return (
     <ThemeProvider theme={theme}>
       {loading === true ? <LinearLoader /> : ""}
-      <Loading loading={loading === null || loading === false ? false : true} />
+      <Loading
+        loaderColor="#1976D2"
+        loading={loading === null || loading === false ? false : true}
+      />
       <AlertDanger display={alertDanger.display} error={alertDanger.error} />
       <AlertSuccess
         display={alertSuccess.display}

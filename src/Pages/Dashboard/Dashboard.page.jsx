@@ -19,6 +19,7 @@ const Dashboard = () => {
       <Box sx={{ height: "100vh" }}>
         {loading === true ? <LinearLoader /> : ""}
         <Loading
+          loaderColor="#1976D2"
           loading={loading === null || loading === false ? false : true}
         />
         <Box

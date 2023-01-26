@@ -84,7 +84,10 @@ export default function SignupUsername() {
   return (
     <ThemeProvider theme={theme}>
       {loading === true ? <LinearLoader /> : ""}
-      <Loading loading={loading === null || loading === false ? false : true} />
+      <Loading
+        loaderColor="#1976D2"
+        loading={loading === null || loading === false ? false : true}
+      />
       <AlertInfo message={alertInfo.message} display={alertInfo.display} />
       <AlertSuccess
         message={alertSuccess.message}
