@@ -153,14 +153,12 @@ export default function SignupUsername() {
                   });
                 }}
               />
-              <Grid container spacing={2}>
+              <Grid container spacing={2} sx={{ mt: 2, mb: 3 }}>
                 <Grid item xs={12} sm={6}>
                   <Button
                     type="button"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 0 }}
-                    md={{ mt: 3, mb: 2 }}
                     color="primary"
                     onClick={(e) => {
                       e.preventDefault();
@@ -174,8 +172,6 @@ export default function SignupUsername() {
                   <Button
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 0, mb: 3 }}
-                    md={{ mt: 3, mb: 2 }}
                     color="success"
                     onClick={(e) => {
                       e.preventDefault();

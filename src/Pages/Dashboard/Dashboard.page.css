@@ -1,0 +1,24 @@
+.color-change-text {
+    -webkit-animation: color-change-text 5s linear infinite alternate both;
+    animation: color-change-text 5s linear infinite alternate both;
+}
+
+@-webkit-keyframes color-change-text {
+    0% {
+        color: #19dcea;
+    }
+
+    100% {
+        color: #b22cff;
+    }
+}
+
+@keyframes color-change-text {
+    0% {
+        color: #19dcea;
+    }
+
+    100% {
+        color: #b22cff;
+    }
+}
