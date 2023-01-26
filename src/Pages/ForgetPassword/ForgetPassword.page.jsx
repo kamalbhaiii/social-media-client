@@ -13,49 +13,40 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import AlertInfo from "../../Components/AlertInfo/AlertInfo.component";
 import { useDispatch, useSelector } from "react-redux";
-import { signupActions } from "../../redux";
+import { forgetPasswordActions } from "../../redux";
 import AlertSuccess from "../../Components/AlertSuccess/AlertSuccess.component";
 import AlertDanger from "../../Components/AlertDanger/AlertDanger.component";
 import Loading from "react-fullscreen-loading";
 import Copyright from "../../Components/Copyright/Copyright.component";
 import LinearLoader from "../../Components/LinearLoader/LinearLoader.comonent";
-import { HowToRegOutlined } from "@mui/icons-material";
+import { LockResetOutlined } from "@mui/icons-material";
 
 const theme = createTheme();
 
-export default function SignupUsername() {
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [data, setData] = React.useState(null);
-  const { loading, error } = useSelector((state) => state.signupReducer);
-  const [alertSuccess, setAlertSuccess] = React.useState({
-    display: "none",
-    message: null,
-  });
+export default function ForgetPassword() {
   const [alertInfo, setAlertInfo] = React.useState({
-    display: "none",
     message: null,
+    display: "none",
+  });
+  const [alertSuccess, setAlertSuccess] = React.useState({
+    message: null,
+    display: "none",
   });
   const [alertDanger, setAlertDanger] = React.useState({
-    display: "none",
     error: null,
+    display: "none",
   });
-
-  React.useEffect(() => {
-    if (!location.state) {
-      navigate("/signup");
-    } else {
-      setData(location.state);
-    }
-  }, []);
-
+  const navigate = useNavigate();
+  const [email, setEmail] = React.useState("");
+  const { message, error, loading } = useSelector(
+    (state) => state.forgetPasswordReducer
+  );
   React.useEffect(() => {
     if (loading === false && error === null) {
       setAlertSuccess({
         ...alertSuccess,
         display: "flex",
-        message: "Account created successfully.",
+        message: message,
       });
       setTimeout(() => {
         setAlertSuccess({
@@ -63,8 +54,9 @@ export default function SignupUsername() {
           display: "none",
           message: null,
         });
-        navigate("/login");
       }, 2000);
+      setEmail("");
+      dispatch(forgetPasswordActions.forgetPasswordRemoveData());
     } else if (loading === false && error !== null) {
       setAlertDanger({
         ...alertDanger,
@@ -79,7 +71,8 @@ export default function SignupUsername() {
         });
       }, 2000);
     }
-  }, [loading, error]);
+  }, [error, loading]);
+  const dispatch = useDispatch();
 
   return (
     <ThemeProvider theme={theme}>
@@ -120,85 +113,55 @@ export default function SignupUsername() {
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <HowToRegOutlined />
+              <LockResetOutlined />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Forget Password
             </Typography>
-            <Box component="form" noValidate sx={{ mt: 1 }}>
+            <Box component="form" noValidate sx={{ mt: 1, width: "100%" }}>
               <TextField
                 margin="normal"
-                autoComplete="given-username"
-                name="userName"
+                autoComplete="given-email"
+                name="email"
                 required
                 fullWidth
-                id="userName"
-                label="Username"
+                id="email"
+                label="Email"
                 autoFocus
-                value={data?.username}
+                value={email}
                 onChange={(e) => {
-                  setData({
-                    ...data,
-                    username: e.target.value,
-                  });
-                }}
-              />
-              <FormControlLabel
-                control={<Checkbox value="t&c" color="primary" />}
-                label="I have read and agree to the terms and conditions."
-                onChange={(e) => {
-                  setData({
-                    ...data,
-                    tAndC: !data.tAndC,
-                  });
+                  setEmail(e.target.value);
                 }}
               />
               <Grid container spacing={2} sx={{ mt: 2, mb: 3 }}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                   <Button
-                    type="button"
                     fullWidth
                     variant="contained"
                     color="primary"
                     onClick={(e) => {
                       e.preventDefault();
-                      navigate("/signup", { state: data });
-                    }}
-                  >
-                    Back
-                  </Button>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    color="success"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (
-                        data.username &&
-                        data.firstName &&
-                        data.email &&
-                        data.password
-                      ) {
-                        dispatch(signupActions.signupApiCall(data));
-                      } else {
-                        if (!data.username) {
+                      if (!email) {
+                        setAlertInfo({
+                          ...alertInfo,
+                          message: "Email is a required field.",
+                          display: "flex",
+                        });
+                        setTimeout(() => {
                           setAlertInfo({
-                            display: "flex",
-                            message: "Username is a requied field.",
+                            ...alertInfo,
+                            message: null,
+                            display: "none",
                           });
-                          setTimeout(() => {
-                            setAlertInfo({
-                              display: "none",
-                              message: null,
-                            });
-                          }, 2000);
-                        }
+                        }, 2000);
+                      } else {
+                        dispatch(
+                          forgetPasswordActions.forgetPasswordApiCall(email)
+                        );
                       }
                     }}
                   >
-                    Signup
+                    Send Reset Password Link
                   </Button>
                 </Grid>
               </Grid>
@@ -211,7 +174,7 @@ export default function SignupUsername() {
                       navigate("/login");
                     }}
                   >
-                    {"Already have an account? Login"}
+                    {"Having Some Idea? Login"}
                   </Link>
                 </Grid>
               </Grid>

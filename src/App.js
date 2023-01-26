@@ -9,6 +9,8 @@ import Navbar from './Components/Navbar/Navbar.component';
 import * as React from "react";
 import { useDispatch } from 'react-redux';
 import { loginActions } from './redux';
+import ForgetPassword from './Pages/ForgetPassword/ForgetPassword.page';
+import ResetPassword from './Pages/ForgetPassword/ResetPassword.page';
 
 const ProtectedRoutes = () => {
   const dispatch = useDispatch()
@@ -49,12 +51,14 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signup/:email" element={<SignupUsername />} />
-          <Route path="/error" element={<Error />} />
-          <Route path="*" element={<Error />} />
+          <Route path="/forgetPassword" element={<ForgetPassword />} />
+          <Route path="/resetPassword/:resetToken" element={<ResetPassword />} />
         </Route>
         <Route element={<ProtectedRoutes />} >
           <Route path='/dashboard' element={<Dashboard />} />
         </Route>
+        <Route path="/error" element={<Error />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );
