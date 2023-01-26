@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginActions } from "../../redux";
 import "./Navbar.component.css";
+import AlertDanger from "../AlertDanger/AlertDanger.component";
 
 function stringToColor(string) {
   let hash = 0;
@@ -200,10 +201,11 @@ export default function Navbar({ display }) {
   );
 
   return (
-    <Box sx={{ flexGrow: 1, display: display }}>
-      <AppBar className={"color-change-2x"} position="static">
-        <Toolbar>
-          {/* <IconButton
+    <>
+      <Box sx={{ flexGrow: 1, display: display }}>
+        <AppBar className={"color-change-2x"} position="static">
+          <Toolbar>
+            {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -212,15 +214,15 @@ export default function Navbar({ display }) {
           >
             <MenuIcon />
           </IconButton> */}
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            Social Media App || Kamal
-          </Typography>
-          {/* <Search>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: "none", sm: "block" } }}
+            >
+              Social Media App || Kamal
+            </Typography>
+            {/* <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -229,59 +231,66 @@ export default function Navbar({ display }) {
               inputProps={{ "aria-label": "search" }}
             />
           </Search> */}
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-              sx={{ display: { xs: "none", md: "flex" } }}
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-              sx={{ display: { xs: "none", md: "flex" } }}
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              sx={{ display: { xs: "flex" } }}
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <Avatar
-                {...stringAvatar(`${data?.firstName} ${data?.lastName}`)}
-              />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
-    </Box>
+            <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="inherit"
+              >
+                <MoreIcon />
+              </IconButton>
+            </Box>
+            <Box sx={{ display: { md: "flex" } }}>
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="inherit"
+                sx={{ display: { xs: "none", md: "flex" } }}
+              >
+                <Badge badgeContent={4} color="error">
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+                sx={{ display: { xs: "none", md: "flex" } }}
+              >
+                <Badge badgeContent={17} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <IconButton
+                sx={{ display: { xs: "flex" } }}
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <Avatar
+                  {...stringAvatar(`${data?.firstName} ${data?.lastName}`)}
+                />
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </AppBar>
+        {renderMobileMenu}
+        {renderMenu}
+      </Box>
+      <AlertDanger
+        display={
+          display === "flex" && data.emailVerified === false ? "flex" : "none"
+        }
+        error="Email Id associated to this account isn't verified. We have sent an email to your registered email id for verification link."
+      />
+    </>
   );
 }

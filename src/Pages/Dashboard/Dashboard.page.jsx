@@ -14,7 +14,6 @@ const Dashboard = () => {
   useEffect(() => {
     setUserData(data);
   }, [data]);
-  console.log(data);
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ height: "100vh" }}>

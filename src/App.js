@@ -7,7 +7,7 @@ import Error from './Pages/Error/Error.page';
 import Dashboard from './Pages/Dashboard/Dashboard.page'
 import Navbar from './Components/Navbar/Navbar.component';
 import * as React from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginActions } from './redux';
 import ForgetPassword from './Pages/ForgetPassword/ForgetPassword.page';
 import ResetPassword from './Pages/ForgetPassword/ResetPassword.page';
