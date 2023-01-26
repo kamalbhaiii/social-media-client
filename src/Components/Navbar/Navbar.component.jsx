@@ -287,7 +287,7 @@ export default function Navbar({ display }) {
       </Box>
       <AlertDanger
         display={
-          display === "flex" && data.emailVerified === false ? "flex" : "none"
+          display === "flex" && data?.emailVerified === false ? "flex" : "none"
         }
         error="Email Id associated to this account isn't verified. We have sent an email to your registered email id for verification link."
       />
