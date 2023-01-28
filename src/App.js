@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginActions } from './redux';
 import ForgetPassword from './Pages/ForgetPassword/ForgetPassword.page';
 import ResetPassword from './Pages/ForgetPassword/ResetPassword.page';
+import EmailVerified from './Pages/EmailVerified/EmailVerified.page';
 
 const ProtectedRoutes = () => {
   const dispatch = useDispatch()
@@ -53,6 +54,7 @@ function App() {
           <Route path="/signup/:email" element={<SignupUsername />} />
           <Route path="/forgetPassword" element={<ForgetPassword />} />
           <Route path="/resetPassword/:resetToken" element={<ResetPassword />} />
+          <Route path="/emailVerified" element={<EmailVerified />} />
         </Route>
         <Route element={<ProtectedRoutes />} >
           <Route path='/dashboard' element={<Dashboard />} />

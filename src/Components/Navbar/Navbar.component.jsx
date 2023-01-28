@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { loginActions } from "../../redux";
 import "./Navbar.component.css";
 import AlertDanger from "../AlertDanger/AlertDanger.component";
+import { People } from "@mui/icons-material";
 
 function stringToColor(string) {
   let hash = 0;
@@ -119,6 +120,33 @@ export default function Navbar({ display }) {
     dispatch(loginActions.resetLoginData());
     navigate("/");
   };
+
+  const friendMenuId = "primary-friend-menu";
+  const renderFriendMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={friendMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      {data?.friends.map((friend, key) => {
+        return (
+          <MenuItem key={key} onClick={handleMenuClose}>
+            {friend}
+          </MenuItem>
+        );
+      })}
+    </Menu>
+  );
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -239,6 +267,22 @@ export default function Navbar({ display }) {
                 <MoreIcon />
               </IconButton>
             </Box>
+            <Box sx={{ display: { xs: "flex" } }}>
+              <IconButton
+                sx={{ display: { xs: "flex" } }}
+                size="large"
+                // edge="end"
+                aria-label="friends of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <Badge badgeContent={data.friends.length} color="error">
+                  <People />
+                </Badge>
+              </IconButton>
+            </Box>
             <Box sx={{ display: { md: "flex" } }}>
               <IconButton
                 size="large"
@@ -279,6 +323,7 @@ export default function Navbar({ display }) {
         </AppBar>
         {renderMobileMenu}
         {renderMenu}
+        {renderFriendMenu}
       </Box>
       <AlertDanger
         display={
