@@ -64,6 +64,7 @@ export default function SignupUsername() {
           message: null,
         });
         navigate("/login");
+        dispatch(signupActions.resetData());
       }, 2000);
     } else if (loading === false && error !== null) {
       setAlertDanger({

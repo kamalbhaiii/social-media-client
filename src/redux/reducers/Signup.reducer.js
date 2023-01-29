@@ -23,6 +23,8 @@ const signupReducer = (state = initialState, action) => {
                 loading: false,
                 error: action.payload
             }
+        case "RESET_SIGNUP_FORM_DATA":
+            return initialState
         default:
             return initialState
     }

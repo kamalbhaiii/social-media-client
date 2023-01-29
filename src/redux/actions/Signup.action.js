@@ -14,6 +14,14 @@ export const signupFail = (error) => ({
     payload: error
 })
 
+export const resetData = () => {
+    return (dispatch) => {
+        dispatch({
+            type: "RESET_SIGNUP_FORM_DATA"
+        })
+    }
+}
+
 export const signupApiCall = (body) => {
     return (dispatch) => {
         dispatch(signupInitialization())
