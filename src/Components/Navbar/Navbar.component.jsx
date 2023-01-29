@@ -17,6 +17,7 @@ import { loginActions } from "../../redux";
 import "./Navbar.component.css";
 import AlertDanger from "../AlertDanger/AlertDanger.component";
 import { People } from "@mui/icons-material";
+import FriendMenuListCard from "../FriendMenuListCard/FriendMenuListCard.component";
 
 function stringToColor(string) {
   let hash = 0;
@@ -150,8 +151,15 @@ export default function Navbar({ display }) {
     >
       {data?.friends.map((friend, key) => {
         return (
-          <MenuItem key={key} onClick={handleFriendMenuClose}>
-            {friend}
+          <MenuItem
+            key={key}
+            onClick={() => {
+              handleFriendMenuClose();
+              navigate(`/user/${friend._id}`);
+            }}
+          >
+            {/* {friend.firstName + friend?.LastName} */}
+            <FriendMenuListCard friend={friend} />
           </MenuItem>
         );
       })}
@@ -251,7 +259,11 @@ export default function Navbar({ display }) {
               variant="h6"
               noWrap
               component="div"
-              sx={{ display: { xs: "none", sm: "block" } }}
+              sx={{ display: { xs: "none", sm: "block" }, cursor: "pointer" }}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/dashboard");
+              }}
             >
               Social Media App || Kamal
             </Typography>

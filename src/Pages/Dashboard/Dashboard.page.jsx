@@ -31,7 +31,7 @@ const Dashboard = () => {
           }}
         >
           <Typography sx={{ display: "flex" }} variant="h3">
-            Hello,{" "}
+            Hello,
             <Typography variant="h3" className="color-change-text">
               {data.firstName} {data?.lastName}
             </Typography>

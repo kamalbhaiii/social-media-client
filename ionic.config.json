@@ -1,0 +1,7 @@
+{
+    "name": "Social Media App || Kamal",
+    "integrations": {
+        "capacitor": {}
+    },
+    "type": "react"
+}

@@ -12,6 +12,7 @@ import { loginActions } from './redux';
 import ForgetPassword from './Pages/ForgetPassword/ForgetPassword.page';
 import ResetPassword from './Pages/ForgetPassword/ResetPassword.page';
 import EmailVerified from './Pages/EmailVerified/EmailVerified.page';
+import UserAccount from './Pages/UserAccount/UserAccount.page';
 
 const ProtectedRoutes = () => {
   const dispatch = useDispatch()
@@ -58,6 +59,7 @@ function App() {
         </Route>
         <Route element={<ProtectedRoutes />} >
           <Route path='/dashboard' element={<Dashboard />} />
+          <Route path="/user/:id" element={<UserAccount />} />
         </Route>
         <Route path="/error" element={<Error />} />
         <Route path="*" element={<Error />} />

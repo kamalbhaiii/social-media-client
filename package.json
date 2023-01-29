@@ -32,9 +32,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "android": "ionic capacitor add android",
-    "ios": "ionic capacitor add ios",
-    "run-android": "npx cap open android"
+    "android": "npm run build && ionic capacitor add android && npx cap open android",
+    "ios": "npm run build && ionic capacitor add ios && npx cap open ios"
   },
   "eslintConfig": {
     "extends": [
