@@ -7,12 +7,12 @@ import Error from './Pages/Error/Error.page';
 import Dashboard from './Pages/Dashboard/Dashboard.page'
 import Navbar from './Components/Navbar/Navbar.component';
 import * as React from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loginActions } from './redux';
 import ForgetPassword from './Pages/ForgetPassword/ForgetPassword.page';
 import ResetPassword from './Pages/ForgetPassword/ResetPassword.page';
-import EmailVerified from './Pages/EmailVerified/EmailVerified.page';
 import UserAccount from './Pages/UserAccount/UserAccount.page';
+import VerifyEmail from './Pages/VerifyEmailPage/VerifyEmail.page';
 
 const ProtectedRoutes = () => {
   const dispatch = useDispatch()
@@ -55,7 +55,7 @@ function App() {
           <Route path="/signup/:email" element={<SignupUsername />} />
           <Route path="/forgetPassword" element={<ForgetPassword />} />
           <Route path="/resetPassword/:resetToken" element={<ResetPassword />} />
-          <Route path="/emailVerified" element={<EmailVerified />} />
+          <Route path="/verifyAccount" element={<VerifyEmail />} />
         </Route>
         <Route element={<ProtectedRoutes />} >
           <Route path='/dashboard' element={<Dashboard />} />
