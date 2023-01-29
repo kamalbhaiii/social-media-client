@@ -92,13 +92,19 @@ export default function Navbar({ display }) {
   const navigate = useNavigate();
   const { data } = useSelector((state) => state.loginReducer);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorFriendEl, setAnchorFriendEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
+  const isFriendMenuOpen = Boolean(anchorFriendEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleFriendMenuOpen = (event) => {
+    setAnchorFriendEl(event.currentTarget);
   };
 
   const handleMobileMenuClose = () => {
@@ -108,6 +114,10 @@ export default function Navbar({ display }) {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
+  };
+
+  const handleFriendMenuClose = () => {
+    setAnchorFriendEl(null);
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -124,7 +134,7 @@ export default function Navbar({ display }) {
   const friendMenuId = "primary-friend-menu";
   const renderFriendMenu = (
     <Menu
-      anchorEl={anchorEl}
+      anchorEl={anchorFriendEl}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",
@@ -135,12 +145,12 @@ export default function Navbar({ display }) {
         vertical: "top",
         horizontal: "right",
       }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
+      open={isFriendMenuOpen}
+      onClose={handleFriendMenuClose}
     >
       {data?.friends.map((friend, key) => {
         return (
-          <MenuItem key={key} onClick={handleMenuClose}>
+          <MenuItem key={key} onClick={handleFriendMenuClose}>
             {friend}
           </MenuItem>
         );
@@ -275,10 +285,10 @@ export default function Navbar({ display }) {
                 aria-label="friends of current user"
                 aria-controls={menuId}
                 aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
+                onClick={handleFriendMenuOpen}
                 color="inherit"
               >
-                <Badge badgeContent={data.friends.length} color="error">
+                <Badge badgeContent={data?.friends.length} color="error">
                   <People />
                 </Badge>
               </IconButton>
